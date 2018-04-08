@@ -1,39 +1,23 @@
 'use strict';
 
+function getMessage(){
+    return new Promise(function(resolve, reject){
+        resolve("its a message !")  //accessible via getMessage().then( . . .)
 
-//generate error for try catch fail
-function makeError(){
-    let errorMsg = new Error("ERROR HIT !")
-    throw errorMsg;
+        reject("error getMessage() promise rejected ") //accesible via getMessage().then(...).catch(err ...)
+    })
+}
+
+async function testAsync(){
+    let the_message = await getMessage()
+    return the_message;
 }
 
 
-//generate simple message
-function makeMsg(){
-    let msg = "one message !"
-    console.log(msg)
-    return msg;
-}
-
-
-//function just generate message
-
-async function runTest(){
-    try {
-        await makeError(); // will enter into the catch
-
-        //this line will never call because makeError enter into the catch 
-        await makeMsg();
-
-    } catch (err) {
-        console.log(err) //display information (line etc)
-        console.log(`CATCH TRIGGERRRRR ${err.message} `)
-    
-    }
-   
-    return "run did his job !"; 
-}
-
-
-runTest()
-
+testAsync()
+.then(function(theMessage){
+    console.log(theMessage)
+})
+.catch(function(err){
+    console.log(err.message)
+})
